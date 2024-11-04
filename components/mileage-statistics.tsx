@@ -101,7 +101,7 @@ export function MileageStatistics({ shiftData, monthlyLimit, isLoading }: Mileag
             <div>
               <p className="text-sm font-medium">Oskar</p>
               {isLoading ? (
-                <Skeleton className="h-8 w-24" />
+                <Skeleton className="h-8 w-32" />
               ) : (
                 <p className="text-2xl font-bold">{weeklyStats["Oskar"] || 0} km</p>
               )}
@@ -109,7 +109,7 @@ export function MileageStatistics({ shiftData, monthlyLimit, isLoading }: Mileag
             <div>
               <p className="text-sm font-medium">Mateusz</p>
               {isLoading ? (
-                <Skeleton className="h-8 w-24" />
+                <Skeleton className="h-8 w-32" />
               ) : (
                 <p className="text-2xl font-bold">{weeklyStats["Mateusz"] || 0} km</p>
               )}
@@ -118,7 +118,7 @@ export function MileageStatistics({ shiftData, monthlyLimit, isLoading }: Mileag
           <div className="mt-4">
             <p className="text-sm font-medium">Total</p>
             {isLoading ? (
-              <Skeleton className="h-10 w-32" />
+              <Skeleton className="h-9 w-36" />
             ) : (
               <p className="text-3xl font-bold">{weeklyTotal} km</p>
             )}
@@ -135,7 +135,7 @@ export function MileageStatistics({ shiftData, monthlyLimit, isLoading }: Mileag
               <div className="flex justify-between items-center mb-1">
                 <span className="text-sm font-medium">Oskar</span>
                 {isLoading ? (
-                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-4 w-20" />
                 ) : (
                   <span className="text-sm">{monthlyTotals.Oskar} km</span>
                 )}
@@ -146,7 +146,7 @@ export function MileageStatistics({ shiftData, monthlyLimit, isLoading }: Mileag
               <div className="flex justify-between items-center mb-1">
                 <span className="text-sm font-medium">Mateusz</span>
                 {isLoading ? (
-                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-4 w-20" />
                 ) : (
                   <span className="text-sm">{monthlyTotals.Mateusz} km</span>
                 )}
