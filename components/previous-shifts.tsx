@@ -47,7 +47,7 @@ export function PreviousShifts({ shiftData }: PreviousShiftsProps) {
         end: endOfMonth(currentMonth),
       });
     })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Sort by date, newest first
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <Card>
@@ -57,16 +57,26 @@ export function PreviousShifts({ shiftData }: PreviousShiftsProps) {
       </CardHeader>
       <CardContent className="pt-6">
         <div className="flex justify-between items-center mb-4">
-          <Button variant="outline" size="sm" onClick={goToPreviousMonth}>
-            <ChevronLeft className="h-4 w-4 mr-2" />
-            Previous
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={goToPreviousMonth}
+            className="flex items-center justify-center w-8 sm:w-auto"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <span className="hidden sm:inline sm:ml-2">Previous</span>
           </Button>
           <h3 className="text-lg font-semibold">
             {format(currentMonth, "MMMM yyyy")}
           </h3>
-          <Button variant="outline" size="sm" onClick={goToNextMonth}>
-            Next
-            <ChevronRight className="h-4 w-4 ml-2" />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={goToNextMonth}
+            className="flex items-center justify-center w-8 sm:w-auto"
+          >
+            <span className="hidden sm:inline sm:mr-2">Next</span>
+            <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
         {filteredShifts.length > 0 ? (

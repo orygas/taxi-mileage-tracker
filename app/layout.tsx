@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import localFont from "next/font/local";
-import { ThemeProvider } from "next-themes"; // Import the ThemeToggle
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -50,7 +50,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="fixed top-4 right-4 z-50"></div>
           {children}
         </ThemeProvider>
       </body>
