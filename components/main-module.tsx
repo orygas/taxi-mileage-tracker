@@ -1,0 +1,99 @@
+"use client";
+import { useState, useEffect } from "react";
+import { PreviousShifts } from "./previous-shifts";
+import { MileageForm } from "./mileage-form";
+import { MileageStatistics } from "./mileage-statistics";
+import { ThemeToggle } from "./theme-toggle";
+import { MileageOverview } from "./mileage-overview";
+import { Card } from "@/components/ui/card"
+
+type Driver = "Oskar" | "Mateusz";
+type ShiftData = {
+  date: string;
+  driver: Driver;
+  mileage: number;
+  endMileage: number;
+};
+
+const BASE_MILEAGE = 43288;
+
+export default function TaxiMileageTracker() {
+  const [shiftData, setShiftData] = useState<ShiftData[]>([]);
+  const [currentMileage, setCurrentMileage] = useState(BASE_MILEAGE);
+
+  // Load data from the API on component mount
+  useEffect(() => {
+    const fetchShiftData = async () => {
+      try {
+        const response = await fetch("/api/shifts");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setShiftData(data);
+
+        if (data.length > 0) {
+          const latestEndMileage = data[data.length - 1].endMileage;
+          setCurrentMileage(latestEndMileage);
+        }
+      } catch (error) {
+        console.error("Error fetching shift data:", error);
+      }
+    };
+
+    fetchShiftData();
+  }, []);
+
+  const addShiftData = async (newShift: {
+    date: string;
+    driver: Driver;
+    mileage: number;
+    endMileage: number;
+  }) => {
+    try {
+      const response = await fetch("/api/shifts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newShift),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const savedShift = await response.json();
+      setShiftData((prevData) => [...prevData, savedShift]);
+      setCurrentMileage(savedShift.endMileage);
+    } catch (error) {
+      console.error("Error adding shift data:", error);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Taxi Mileage Tracker</h1>
+          <ThemeToggle/>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          <MileageOverview shiftData={shiftData}/>
+        </div>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <MileageForm onSubmit={addShiftData} baseMileage={currentMileage}/>
+          <MileageStatistics shiftData={shiftData} monthlyLimit={8000}/>
+        </div>
+
+        <Card className="mt-6">
+          <PreviousShifts
+            shiftData={shiftData}
+          />
+        </Card>
+      </div>
+    </div>
+  );
+}
