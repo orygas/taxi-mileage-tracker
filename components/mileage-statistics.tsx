@@ -4,6 +4,7 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { useMemo } from "react"
 import { format } from "date-fns"
+import { Skeleton } from "@/components/ui/skeleton"
 
 type Driver = "Oskar" | "Mateusz";
 type ShiftData = {
@@ -16,9 +17,10 @@ type ShiftData = {
 type MileageStatisticsProps = {
   shiftData: ShiftData[];
   monthlyLimit: number;
+  isLoading: boolean;
 };
 
-export function MileageStatistics({ shiftData, monthlyLimit }: MileageStatisticsProps) {
+export function MileageStatistics({ shiftData, monthlyLimit, isLoading }: MileageStatisticsProps) {
   // Weekly Stats Calculation
   const { weeklyStats, weekRange } = useMemo(() => {
     const now = new Date();
@@ -98,16 +100,28 @@ export function MileageStatistics({ shiftData, monthlyLimit }: MileageStatistics
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-sm font-medium">Oskar</p>
-              <p className="text-2xl font-bold">{weeklyStats["Oskar"] || 0} km</p>
+              {isLoading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <p className="text-2xl font-bold">{weeklyStats["Oskar"] || 0} km</p>
+              )}
             </div>
             <div>
               <p className="text-sm font-medium">Mateusz</p>
-              <p className="text-2xl font-bold">{weeklyStats["Mateusz"] || 0} km</p>
+              {isLoading ? (
+                <Skeleton className="h-8 w-24" />
+              ) : (
+                <p className="text-2xl font-bold">{weeklyStats["Mateusz"] || 0} km</p>
+              )}
             </div>
           </div>
           <div className="mt-4">
             <p className="text-sm font-medium">Total</p>
-            <p className="text-3xl font-bold">{weeklyTotal} km</p>
+            {isLoading ? (
+              <Skeleton className="h-10 w-32" />
+            ) : (
+              <p className="text-3xl font-bold">{weeklyTotal} km</p>
+            )}
           </div>
         </div>
         
@@ -120,24 +134,32 @@ export function MileageStatistics({ shiftData, monthlyLimit }: MileageStatistics
             <div>
               <div className="flex justify-between items-center mb-1">
                 <span className="text-sm font-medium">Oskar</span>
-                <span className="text-sm">{monthlyTotals.Oskar} km</span>
+                {isLoading ? (
+                  <Skeleton className="h-4 w-16" />
+                ) : (
+                  <span className="text-sm">{monthlyTotals.Oskar} km</span>
+                )}
               </div>
               <Progress value={(monthlyTotals.Oskar / monthlyLimit) * 100} className="h-2" />
             </div>
             <div>
               <div className="flex justify-between items-center mb-1">
                 <span className="text-sm font-medium">Mateusz</span>
-                <span className="text-sm">{monthlyTotals.Mateusz} km</span>
+                {isLoading ? (
+                  <Skeleton className="h-4 w-16" />
+                ) : (
+                  <span className="text-sm">{monthlyTotals.Mateusz} km</span>
+                )}
               </div>
               <Progress value={(monthlyTotals.Mateusz / monthlyLimit) * 100} className="h-2" />
             </div>
           </div>
           <div className="mt-4">
-            <p className="text-sm font-medium">Total: {totalMonthlyMileage} km</p>
+              <p className="text-sm font-medium">Total: {totalMonthlyMileage} km</p>
             <Progress value={progressPercentage} className="h-2 mt-2" />
-            <p className="text-xs text-muted-foreground mt-1">
-              {progressPercentage.toFixed(1)}% of monthly limit ({monthlyLimit.toLocaleString()} km)
-            </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {progressPercentage.toFixed(1)}% of monthly limit ({monthlyLimit.toLocaleString()} km)
+              </p>
           </div>
         </div>
       </CardContent>

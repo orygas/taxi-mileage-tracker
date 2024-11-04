@@ -6,6 +6,7 @@ import { MileageStatistics } from "./mileage-statistics";
 import { ThemeToggle } from "./theme-toggle";
 import { MileageOverview } from "./mileage-overview";
 import { Card } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Driver = "Oskar" | "Mateusz";
 type ShiftData = {
@@ -20,10 +21,11 @@ const BASE_MILEAGE = 43288;
 export default function TaxiMileageTracker() {
   const [shiftData, setShiftData] = useState<ShiftData[]>([]);
   const [currentMileage, setCurrentMileage] = useState(BASE_MILEAGE);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Load data from the API on component mount
   useEffect(() => {
     const fetchShiftData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch("/api/shifts");
         if (!response.ok) {
@@ -38,6 +40,8 @@ export default function TaxiMileageTracker() {
         }
       } catch (error) {
         console.error("Error fetching shift data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -80,12 +84,12 @@ export default function TaxiMileageTracker() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <MileageOverview shiftData={shiftData}/>
+          <MileageOverview shiftData={shiftData} isLoading={isLoading}/>
         </div>
 
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           <MileageForm onSubmit={addShiftData} baseMileage={currentMileage}/>
-          <MileageStatistics shiftData={shiftData} monthlyLimit={8000}/>
+          <MileageStatistics shiftData={shiftData} monthlyLimit={8000} isLoading={isLoading}/>
         </div>
 
         <Card className="mt-6">

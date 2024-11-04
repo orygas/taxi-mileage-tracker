@@ -1,6 +1,6 @@
 import { Car, TrendingUp } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-
+import { Skeleton } from "@/components/ui/skeleton"
 
 type Driver = "Oskar" | "Mateusz";
 type ShiftData = {
@@ -10,8 +10,13 @@ type ShiftData = {
   endMileage: number;
 };
 
-export function MileageOverview({ shiftData }: { shiftData: ShiftData[] }) {
-
+export function MileageOverview({ 
+  shiftData, 
+  isLoading = false
+}: { 
+  shiftData: ShiftData[];
+  isLoading?: boolean;
+}) {
   const latestEndMileage = shiftData.length > 0 
     ? shiftData[shiftData.length - 1].endMileage 
     : 0;
@@ -29,7 +34,11 @@ export function MileageOverview({ shiftData }: { shiftData: ShiftData[] }) {
           <Car className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent className="pt-6">
-          <div className="text-3xl font-bold">{latestEndMileage.toLocaleString()} km</div>
+          {isLoading ? (
+            <Skeleton className="h-9 w-[120px]" />
+          ) : (
+            <div className="text-3xl font-bold">{latestEndMileage.toLocaleString()} km</div>
+          )}
         </CardContent>
       </Card>
       <Card>
@@ -38,7 +47,11 @@ export function MileageOverview({ shiftData }: { shiftData: ShiftData[] }) {
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent className="pt-6">
-          <div className="text-3xl font-bold">{Math.round(averageDailyDistance).toLocaleString()} km</div>
+          {isLoading ? (
+            <Skeleton className="h-9 w-[100px]" />
+          ) : (
+            <div className="text-3xl font-bold">{Math.round(averageDailyDistance).toLocaleString()} km</div>
+          )}
         </CardContent>
       </Card>
     </>
