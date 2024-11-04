@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
 
 const URI = process.env.URI; // Access the environment variable
-const DATABASE_NAME = "taxi_mileage_dev";
+const DATABASE_NAME = "taxi_mileage";
 const COLLECTION_NAME = "shifts";
 
 // let cachedClient: MongoClient | null = null;
