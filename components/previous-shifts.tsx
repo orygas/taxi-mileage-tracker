@@ -84,7 +84,7 @@ export function PreviousShifts({ shiftData }: PreviousShiftsProps) {
             <TableHeader>
               <TableRow>
                 <TableHead>Date</TableHead>
-                <TableHead>Driver</TableHead>
+                <TableHead className="text-center">Driver</TableHead>
                 <TableHead className="text-right">Mileage (km)</TableHead>
               </TableRow>
             </TableHeader>
@@ -94,7 +94,7 @@ export function PreviousShifts({ shiftData }: PreviousShiftsProps) {
                   <TableCell>
                     {format(new Date(shift.date), "dd.MM.yyyy")}
                   </TableCell>
-                  <TableCell>{shift.driver}</TableCell>
+                  <TableCell className="text-center">{shift.driver}</TableCell>
                   <TableCell className="text-right">{shift.mileage}</TableCell>
                 </TableRow>
               ))}

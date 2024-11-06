@@ -84,13 +84,12 @@ export function MileageForm({ onSubmit, baseMileage }: MileageFormProps) {
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !date && "text-muted-foreground",
-                      dateError && "border-red-500"
+                      "w-full justify-start text-left font-normal hover:border-ring hover:bg-background",
+                      !date && dateError && "border-red-500"
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "P") : "Pick a date"}
+                    {date ? format(date, "dd.MM.yyyy") : "Pick a date"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -119,7 +118,7 @@ export function MileageForm({ onSubmit, baseMileage }: MileageFormProps) {
                 value={driver}
                 onValueChange={(value: Driver) => setDriver(value)}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full hover:border-ring">
                   <SelectValue placeholder="Select driver" />
                 </SelectTrigger>
                 <SelectContent>

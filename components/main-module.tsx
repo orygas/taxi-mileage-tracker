@@ -5,8 +5,6 @@ import { MileageForm } from "./mileage-form";
 import { MileageStatistics } from "./mileage-statistics";
 import { ThemeToggle } from "./theme-toggle";
 import { MileageOverview } from "./mileage-overview";
-import { Card } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton";
 
 type Driver = "Oskar" | "Mateusz";
 type ShiftData = {
@@ -80,23 +78,25 @@ export default function TaxiMileageTracker() {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Taxi Mileage Tracker</h1>
-          <ThemeToggle/>
+          <ThemeToggle />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <MileageOverview shiftData={shiftData} isLoading={isLoading}/>
+          <MileageOverview shiftData={shiftData} isLoading={isLoading} />
         </div>
 
         <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <MileageForm onSubmit={addShiftData} baseMileage={currentMileage}/>
-          <MileageStatistics shiftData={shiftData} monthlyLimit={8000} isLoading={isLoading}/>
+          <MileageForm onSubmit={addShiftData} baseMileage={currentMileage} />
+          <MileageStatistics
+            shiftData={shiftData}
+            monthlyLimit={8000}
+            isLoading={isLoading}
+          />
         </div>
 
-        <Card className="mt-6">
-          <PreviousShifts
-            shiftData={shiftData}
-          />
-        </Card>
+        <div className="mt-6">
+          <PreviousShifts shiftData={shiftData} />
+        </div>
       </div>
     </div>
   );
