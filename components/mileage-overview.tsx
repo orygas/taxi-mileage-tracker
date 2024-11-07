@@ -1,14 +1,7 @@
 import { Car, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-
-type Driver = "Oskar" | "Mateusz";
-type ShiftData = {
-  date: string;
-  driver: Driver;
-  mileage: number;
-  endMileage: number;
-};
+import { ShiftData } from "@/types/types"; // Import the ShiftData type
 
 export function MileageOverview({
   shiftData,

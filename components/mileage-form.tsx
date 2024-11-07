@@ -19,16 +19,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-
-type Driver = "Oskar" | "Mateusz";
+import { Driver, ShiftData } from "@/types/types"; // Import the types
 
 type MileageFormProps = {
-  onSubmit: (data: {
-    date: string;
-    driver: Driver;
-    mileage: number;
-    endMileage: number;
-  }) => void;
+  onSubmit: (data: ShiftData) => void;
   baseMileage: number;
 };
 

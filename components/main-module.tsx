@@ -5,14 +5,7 @@ import { MileageForm } from "./mileage-form";
 import { MileageStatistics } from "./mileage-statistics";
 import { ThemeToggle } from "./theme-toggle";
 import { MileageOverview } from "./mileage-overview";
-
-type Driver = "Oskar" | "Mateusz";
-type ShiftData = {
-  date: string;
-  driver: Driver;
-  mileage: number;
-  endMileage: number;
-};
+import { Driver, ShiftData } from "@/types/types"; // Import the types
 
 const BASE_MILEAGE = 43288;
 
@@ -46,12 +39,7 @@ export default function TaxiMileageTracker() {
     fetchShiftData();
   }, []);
 
-  const addShiftData = async (newShift: {
-    date: string;
-    driver: Driver;
-    mileage: number;
-    endMileage: number;
-  }) => {
+  const addShiftData = async (newShift: ShiftData) => {
     try {
       const response = await fetch("/api/shifts", {
         method: "POST",

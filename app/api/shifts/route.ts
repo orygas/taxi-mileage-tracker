@@ -8,33 +8,50 @@ const URI = process.env.URI; // Access the environment variable
 const DATABASE_NAME = "taxi_mileage";
 const COLLECTION_NAME = "shifts";
 
-// let cachedClient: MongoClient | null = null;
+if (!URI) {
+  throw new Error("MongoDB connection URI is not defined in environment variables.");
+}
+
+let cachedClient: MongoClient | null = null;
+let isConnected = false; // Track connection state
 
 async function connectToDatabase() {
-  if (!URI) {
-    throw new Error(
-      "MongoDB connection URI is not defined in environment variables."
-    );
+  if (cachedClient && isConnected) {
+    return cachedClient;
   }
 
-  const client = new MongoClient(URI);
+  const client = new MongoClient(URI as string); // Type assertion here
   await client.connect();
+  cachedClient = client; // Cache the client for reuse
+  isConnected = true; // Update connection state
   return client;
 }
 
-export async function GET() {
+async function getCollection() {
   const client = await connectToDatabase();
   const database = client.db(DATABASE_NAME);
-  const collection = database.collection(COLLECTION_NAME);
-  const data = await collection.find({}).toArray();
-  return NextResponse.json(data);
+  return database.collection(COLLECTION_NAME);
+}
+
+export async function GET() {
+  try {
+    const collection = await getCollection();
+    const data = await collection.find({}).toArray();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
-  const newShift = await request.json();
-  const client = await connectToDatabase();
-  const database = client.db(DATABASE_NAME);
-  const collection = database.collection(COLLECTION_NAME);
-  await collection.insertOne(newShift);
-  return NextResponse.json(newShift, { status: 201 });
+  try {
+    const newShift = await request.json();
+    const collection = await getCollection();
+    await collection.insertOne(newShift);
+    return NextResponse.json(newShift, { status: 201 });
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    return NextResponse.json({ error: "Failed to insert data" }, { status: 500 });
+  }
 }
