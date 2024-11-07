@@ -97,16 +97,16 @@ export function MileageStatistics({
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm font-medium">Oskar</p>
-                <Skeleton className="w-[150px] h-[32px]" />
+                <Skeleton className="h-[32px]" />
               </div>
               <div>
                 <p className="text-sm font-medium">Mateusz</p>
-                <Skeleton className="w-[150px] h-[32px]" />
+                <Skeleton className="h-[32px]" />
               </div>
             </div>
             <div className="mt-4">
               <p className="text-sm font-medium">Total</p>
-              <Skeleton className="w-[150px] h-[36px]" />
+              <Skeleton className="h-[36px]" />
             </div>
           </div>
 
@@ -118,11 +118,11 @@ export function MileageStatistics({
               Month: {monthLabel}
             </p>
             <div className="space-y-4">
-              <Skeleton className="w-[578px] h-[32px]" />
-              <Skeleton className="w-[578px] h-[32px]" />
+              <Skeleton className="h-[32px]" />
+              <Skeleton className="h-[32px]" />
             </div>
             <div className="mt-4">
-              <Skeleton className="w-[578px] h-[60px]" />
+              <Skeleton className="h-[60px]" />
             </div>
           </div>
         </CardContent>
