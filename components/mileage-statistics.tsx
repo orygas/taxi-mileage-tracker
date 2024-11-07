@@ -4,14 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { PieChart } from "lucide-react";
 import { Separator } from "./ui/separator";
-import { 
-  formatMonthYear, 
-  formatMonthDay, 
+import {
+  formatMonthYear,
+  formatMonthDay,
   formatMonthDayYear,
-  getWeekRange, 
-  getMonthRange 
+  getWeekRange,
+  getMonthRange,
 } from "@/utils/dates";
 import { Driver, ShiftData } from "@/types/types";
+import { Skeleton } from "./ui/skeleton";
 
 interface MileageStatisticsProps {
   shiftData: ShiftData[];
@@ -59,7 +60,9 @@ export function MileageStatistics({
         { Oskar: 0, Mateusz: 0 } as Record<Driver, number>
       );
 
-    const weekRangeText = `${formatMonthDay(weekStart)} - ${formatMonthDayYear(weekEnd)}`;
+    const weekRangeText = `${formatMonthDay(weekStart)} - ${formatMonthDayYear(
+      weekEnd
+    )}`;
     const monthLabelText = formatMonthYear(monthStart);
 
     const totalMonthly = monthly.Oskar + monthly.Mateusz;
@@ -86,7 +89,42 @@ export function MileageStatistics({
           <PieChart className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent className="pt-6 space-y-6">
-          Loading...
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Weekly Stats</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Week: {weekRange}
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm font-medium">Oskar</p>
+                <Skeleton className="w-[150px] h-[32px]" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Mateusz</p>
+                <Skeleton className="w-[150px] h-[32px]" />
+              </div>
+            </div>
+            <div className="mt-4">
+              <p className="text-sm font-medium">Total</p>
+              <Skeleton className="w-[150px] h-[36px]" />
+            </div>
+          </div>
+
+          <Separator />
+
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Monthly Stats</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Month: {monthLabel}
+            </p>
+            <div className="space-y-4">
+              <Skeleton className="w-[578px] h-[32px]" />
+              <Skeleton className="w-[578px] h-[32px]" />
+            </div>
+            <div className="mt-4">
+              <Skeleton className="w-[578px] h-[60px]" />
+            </div>
+          </div>
         </CardContent>
       </Card>
     );
